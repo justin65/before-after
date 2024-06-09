@@ -36,3 +36,58 @@
     transform: rotate(360deg);
   }
 }
+
+.app-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+  height: 100vh;
+}
+
+.photo-upload, .camera-feed {
+  width: 45%;
+  margin: 10px;
+}
+
+.photo-upload img, .camera-feed img {
+  width: 100%;
+  height: auto;
+  margin-top: 10px;
+}
+
+button {
+  margin-top: 10px;
+}
+
+@media (max-width: 768px) {
+  .app-container {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .photo-upload, .camera-feed {
+    width: 80%;
+  }
+}
+
+/* 新增以下部分來處理手機翻轉時的左右擺放 */
+@media (orientation: landscape) {
+  .app-container {
+    flex-direction: row;
+  }
+
+  .photo-upload, .camera-feed {
+    width: 45%;
+  }
+}
+
+@media (orientation: portrait) {
+  .app-container {
+    flex-direction: column;
+  }
+
+  .photo-upload, .camera-feed {
+    width: 80%;
+  }
+}
