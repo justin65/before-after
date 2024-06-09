@@ -51,12 +51,12 @@ const App = () => {
   return (
     <div className="app-container">
       <div className="photo-upload">
-        <h2>上傳照片</h2>
+        <h2>Before</h2>
         <PhotoUpload addPhoto={handleFileUpload} />
         {uploadedPhoto && <img src={uploadedPhoto} alt="Uploaded" />}
       </div>
       <div className="camera-feed">
-        <h2>{showCamera ? '相機影像' : '拍照結果'}</h2>
+        <h2>After</h2>
         {showCamera ? (
           <CameraFeed addPhoto={handlePhotoCapture} />
         ) : (
