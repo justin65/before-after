@@ -39,19 +39,23 @@
 
 .app-container {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   justify-content: space-around;
   align-items: center;
   height: 100vh;
+  overflow: hidden;
 }
 
 .photo-upload, .camera-feed {
-  width: 45%;
+  flex: 1;
   margin: 10px;
+  box-sizing: border-box;
 }
 
 .photo-upload img, .camera-feed img {
-  width: 100%;
+  max-width: 50vw; /* 最多半個螢幕 */
+  max-height: 50vh; /* 最多半個螢幕 */
+  width: auto;
   height: auto;
   margin-top: 10px;
 }
@@ -61,33 +65,26 @@ button {
 }
 
 @media (max-width: 768px) {
-  .app-container {
-    flex-direction: column;
-    height: auto;
-  }
-
-  .photo-upload, .camera-feed {
-    width: 80%;
+  .photo-upload img, .camera-feed img {
+    max-width: 50vw; /* 最多半個螢幕 */
+    max-height: 50vh; /* 最多半個螢幕 */
   }
 }
 
-/* 新增以下部分來處理手機翻轉時的左右擺放 */
 @media (orientation: landscape) {
-  .app-container {
-    flex-direction: row;
-  }
-
-  .photo-upload, .camera-feed {
-    width: 45%;
+  @media (max-width: 768px) {
+    .photo-upload img, .camera-feed img {
+      max-width: 70vw; /* 横向时最多半个屏幕 */
+      max-height: 70vh; /* 横向时最多半个屏幕 */
+    }
   }
 }
 
 @media (orientation: portrait) {
-  .app-container {
-    flex-direction: column;
-  }
-
-  .photo-upload, .camera-feed {
-    width: 80%;
+  @media (max-width: 768px) {
+    .photo-upload img, .camera-feed img {
+      max-width: 40vw; /* 縱向時最多半個屏幕 */
+      max-height: 40vh; /* 縱向時最多半個屏幕 */
+    }
   }
 }
