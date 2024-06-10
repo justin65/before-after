@@ -20,7 +20,6 @@ const CameraFeed = ({ addPhoto, dimensions }) => {
             setVideoConstraints({
                 width: settings.width,
                 height: settings.height,
-                facingMode: { exact: "environment" },
             });
         } catch (err) {
             console.error('Error accessing user camera:', err);
@@ -39,29 +38,48 @@ const CameraFeed = ({ addPhoto, dimensions }) => {
     return;
   }
 
+  if (!videoConstraints) {
+    return;
+  }
+
+  console.log(videoConstraints);
   return (
     <div>
       {isMobile ? (
-        <Webcam
-          audio={false}
-          ref={webcamRef}
-          screenshotFormat="image/jpeg"
-          width={dimensions.width ? dimensions.width : 200}
-          height={dimensions.height > 100 ? dimensions.height - 100 : 200}
-          videoConstraints={{
-            ...videoConstraints,
-            facingMode: { exact: "environment" },
-          }}
-        />
+        <div className="image-container">
+          <Webcam
+            audio={false}
+            ref={webcamRef}
+            screenshotFormat="image/jpeg"
+            width={videoConstraints.width}
+            height={videoConstraints.height}
+            videoConstraints={{
+              ...videoConstraints,
+              facingMode: { exact: "environment" },
+            }}
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'contain',
+            }}
+          />
+        </div>
       ) : (
-        <Webcam
-          audio={false}
-          ref={webcamRef}
-          screenshotFormat="image/jpeg"
-          width={dimensions.width ? dimensions.width : 100}
-          height={dimensions.height > 100 ? dimensions.height - 100 : 100}
-          videoConstraints={videoConstraints}
-        />
+        <div className="image-container">
+          <Webcam
+            audio={false}
+            ref={webcamRef}
+            screenshotFormat="image/jpeg"
+            width={videoConstraints.width}
+            height={videoConstraints.height}
+            videoConstraints={videoConstraints}
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'contain',
+            }}
+          />
+        </div>
       )}
       <button onClick={capture}>拍照</button>
     </div>
