@@ -10,8 +10,8 @@ const CameraFeed = ({ addPhoto, dimensions }) => {
     setIsMobile(/iphone|ipad|ipod|android/.test(userAgent));
   }, []);
 
-  const width = dimensions.width < dimensions.height ? dimensions.width : dimensions.height;
-  const height = dimensions.width > dimensions.height ? dimensions.width : dimensions.height;
+  const width = dimensions.width > dimensions.height ? dimensions.width : dimensions.height;
+  const height = dimensions.width < dimensions.height ? dimensions.width : dimensions.height;
 
   const capture = () => {
     const imageSrc = webcamRef.current.getScreenshot({
