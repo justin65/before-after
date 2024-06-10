@@ -18,8 +18,10 @@ const CameraFeed = ({ addPhoto, dimensions }) => {
             const track = stream.getVideoTracks()[0];
             const settings = track.getSettings();
             setVideoConstraints({
-                width: settings.height, // ??
-                height: settings.width,
+                // width: settings.height, // ??
+                // height: settings.width,
+                width: 3072,
+                height: 4080,
             });
         } catch (err) {
             console.error('Error accessing user camera:', err);
@@ -43,7 +45,7 @@ const CameraFeed = ({ addPhoto, dimensions }) => {
   }
 
   return (
-    <div>
+    <div style={{ marginBottom: 20 }}>
       {isMobile ? (
         <div className="image-container">
           <Webcam
