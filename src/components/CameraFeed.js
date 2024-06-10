@@ -52,6 +52,7 @@ const CameraFeed = ({ addPhoto, dimensions }) => {
             screenshotFormat="image/jpeg"
             width={videoConstraints.width}
             height={videoConstraints.height}
+            screenshotQuality={1}
             videoConstraints={{
               ...videoConstraints,
               facingMode: { exact: "environment" },
@@ -71,6 +72,7 @@ const CameraFeed = ({ addPhoto, dimensions }) => {
             screenshotFormat="image/jpeg"
             width={videoConstraints.width}
             height={videoConstraints.height}
+            screenshotQuality={1}
             videoConstraints={videoConstraints}
             style={{
               width: '100%',
