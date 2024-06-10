@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import PhotoUpload from './components/PhotoUpload';
 import CameraFeed from './components/CameraFeed';
 import { saveAs } from 'file-saver';
@@ -9,6 +9,29 @@ const App = () => {
   const [uploadedPhotoName, setUploadedPhotoName] = useState('');
   const [capturedPhoto, setCapturedPhoto] = useState(null);
   const [showCamera, setShowCamera] = useState(true);
+  const outerDivRef = useRef(null);
+  const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
+
+  useEffect(() => {
+    const updateDimensions = () => {
+        if (outerDivRef.current) {
+            const outerWidth = outerDivRef.current.clientWidth;
+            const outerHeight = outerDivRef.current.clientHeight;
+            console.log(outerWidth, outerHeight);
+            setDimensions({
+                width: outerWidth - 20,
+                height: outerHeight - 20,
+            });
+        }
+    };
+
+    updateDimensions();
+    window.addEventListener('resize', updateDimensions);
+
+    return () => {
+        window.removeEventListener('resize', updateDimensions);
+    };
+}, []);
 
   const handleFileUpload = (photo, photoName) => {
     setUploadedPhoto(photo);
@@ -53,20 +76,24 @@ const App = () => {
       <div className="photo-upload">
         <h2>Before</h2>
         <PhotoUpload addPhoto={handleFileUpload} />
-        <div class="image-container">
+        <div className="image-container">
           {uploadedPhoto && <img src={uploadedPhoto} alt="Uploaded" />}
         </div>
       </div>
-      <div className="camera-feed">
+      <div className="camera-feed" ref={outerDivRef}>
         <h2>After</h2>
         {showCamera ? (
-          <CameraFeed addPhoto={handlePhotoCapture} />
+          <CameraFeed addPhoto={handlePhotoCapture} dimensions={dimensions} />
         ) : (
-          <div>
-            <img src={capturedPhoto} alt="Captured" />
-            <button onClick={handleShowCamera}>回到相機模式</button>
-            <button onClick={handleSavePhoto}>保存照片</button>
-          </div>
+          <>
+            <div className="image-container">
+              <img src={capturedPhoto} alt="Captured" />
+            </div>
+            <div>
+              <button onClick={handleShowCamera}>回到相機模式</button>
+              <button onClick={handleSavePhoto}>保存照片</button>
+            </div>
+          </>
         )}
       </div>
     </div>
