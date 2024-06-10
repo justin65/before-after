@@ -12,8 +12,8 @@ const CameraFeed = ({ addPhoto, dimensions }) => {
 
   const capture = () => {
     const imageSrc = webcamRef.current.getScreenshot({
-      width: dimensions.width,
-      height: dimensions.height,
+      width: dimensions.width / 3,
+      height: dimensions.height / 3,
     });
     addPhoto(imageSrc);
   };
@@ -22,8 +22,8 @@ const CameraFeed = ({ addPhoto, dimensions }) => {
     return;
   }
   const videoConstraints = {
-    width: dimensions.width || 1920,
-    height: dimensions.height || 1080,
+    width: dimensions.width / 3,
+    height: dimensions.height / 3,
   }
 
   return (
@@ -34,8 +34,6 @@ const CameraFeed = ({ addPhoto, dimensions }) => {
             audio={false}
             ref={webcamRef}
             screenshotFormat="image/jpeg"
-            screenshotQuality={1}
-            forceScreenshotSourceSize
             width={videoConstraints.width}
             height={videoConstraints.height}
             videoConstraints={{
@@ -55,8 +53,6 @@ const CameraFeed = ({ addPhoto, dimensions }) => {
             audio={false}
             ref={webcamRef}
             screenshotFormat="image/jpeg"
-            screenshotQuality={1}
-            forceScreenshotSourceSize
             width={videoConstraints.width}
             height={videoConstraints.height}
             videoConstraints={videoConstraints}
