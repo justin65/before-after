@@ -51,6 +51,7 @@ const CameraFeed = ({ addPhoto, dimensions }) => {
             ref={webcamRef}
             screenshotFormat="image/jpeg"
             screenshotQuality={1}
+            forceScreenshotSourceSize
             width={videoConstraints.width}
             height={videoConstraints.height}
             videoConstraints={{
@@ -71,6 +72,7 @@ const CameraFeed = ({ addPhoto, dimensions }) => {
             ref={webcamRef}
             screenshotFormat="image/jpeg"
             screenshotQuality={1}
+            forceScreenshotSourceSize
             width={videoConstraints.width}
             height={videoConstraints.height}
             videoConstraints={videoConstraints}
