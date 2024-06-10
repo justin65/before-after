@@ -53,7 +53,9 @@ const App = () => {
       <div className="photo-upload">
         <h2>Before</h2>
         <PhotoUpload addPhoto={handleFileUpload} />
-        {uploadedPhoto && <img src={uploadedPhoto} alt="Uploaded" />}
+        <div class="image-container">
+          {uploadedPhoto && <img src={uploadedPhoto} alt="Uploaded" />}
+        </div>
       </div>
       <div className="camera-feed">
         <h2>After</h2>
