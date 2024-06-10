@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import PhotoUpload from './components/PhotoUpload';
 import CameraFeed from './components/CameraFeed';
 import { saveAs } from 'file-saver';
