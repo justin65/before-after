@@ -15,8 +15,8 @@ const CameraFeed = ({ addPhoto, dimensions }) => {
 
   const capture = () => {
     const imageSrc = webcamRef.current.getScreenshot({
-      width,
-      height,
+      // width,
+      // height,
       // width: dimensions.height,
       // height: dimensions.width,
     });
