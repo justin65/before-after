@@ -12,10 +12,10 @@ const CameraFeed = ({ addPhoto, dimensions }) => {
 
   const capture = () => {
     const imageSrc = webcamRef.current.getScreenshot({
-      // width: dimensions.width / 3,
-      // height: dimensions.height / 3,
-      width: dimensions.height,
-      height: dimensions.width,
+      width: dimensions.width / 2,
+      height: dimensions.height / 2,
+      // width: dimensions.height,
+      // height: dimensions.width,
     });
     addPhoto(imageSrc);
   };
@@ -24,10 +24,10 @@ const CameraFeed = ({ addPhoto, dimensions }) => {
     return;
   }
   const videoConstraints = {
-    width: dimensions.height,
-    height: dimensions.width,
-    // width: dimensions.width / 3,
-    // height: dimensions.height / 3,
+    // width: dimensions.height,
+    // height: dimensions.width,
+    width: dimensions.width / 2,
+    height: dimensions.height / 2,
   }
 
   return (
