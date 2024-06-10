@@ -3,22 +3,33 @@ import Webcam from 'react-webcam';
 
 const CameraFeed = ({ addPhoto, dimensions }) => {
   const [isMobile, setIsMobile] = useState(false);
+  const [orientation, setOrientation] = useState(window.screen.orientation.type);
   const webcamRef = useRef(null);
+
+  useEffect(() => {
+    const handleOrientationChange = () => {
+      setOrientation(window.screen.orientation.type);
+    };
+
+    window.screen.orientation.addEventListener('change', handleOrientationChange);
+
+    return () => {
+      window.screen.orientation.removeEventListener('change', handleOrientationChange);
+    };
+  }, []);
 
   useEffect(() => {
     const userAgent = navigator.userAgent.toLowerCase();
     setIsMobile(/iphone|ipad|ipod|android/.test(userAgent));
   }, []);
 
-  const portraitImage = dimensions.width < dimensions.height;
-
   const width = dimensions.width > dimensions.height ? dimensions.width : dimensions.height;
   const height = dimensions.width < dimensions.height ? dimensions.width : dimensions.height;
 
   const capture = () => {
     const imageSrc = webcamRef.current.getScreenshot({
-      width: portraitImage ? height : width,
-      height: portraitImage ? width : height,
+      width: orientation.includes('portrait') ? height : width,
+      height: orientation.includes('portrait') ? width : height,
     });
     addPhoto(imageSrc);
   };
