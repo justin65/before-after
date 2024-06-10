@@ -10,10 +10,13 @@ const CameraFeed = ({ addPhoto, dimensions }) => {
     setIsMobile(/iphone|ipad|ipod|android/.test(userAgent));
   }, []);
 
+  const width = dimensions.width < dimensions.height ? dimensions.width : dimensions.height;
+  const height = dimensions.width > dimensions.height ? dimensions.width : dimensions.height;
+
   const capture = () => {
     const imageSrc = webcamRef.current.getScreenshot({
-      width: dimensions.width / 2,
-      height: dimensions.height / 2,
+      width,
+      height,
       // width: dimensions.height,
       // height: dimensions.width,
     });
@@ -24,10 +27,10 @@ const CameraFeed = ({ addPhoto, dimensions }) => {
     return;
   }
   const videoConstraints = {
-    // width: dimensions.height,
-    // height: dimensions.width,
-    width: dimensions.width / 2,
-    height: dimensions.height / 2,
+    width,
+    height,
+    // width: dimensions.width / 2,
+    // height: dimensions.height / 2,
   }
 
   return (
