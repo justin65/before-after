@@ -17,6 +17,8 @@ const CameraFeed = ({ addPhoto, dimensions }) => {
             const stream = await navigator.mediaDevices.getUserMedia({ video: true });
             const track = stream.getVideoTracks()[0];
             const settings = track.getSettings();
+            console.log('Actual resolution:', settings.width, 'x', settings.height);
+            window.alert(`Actual resolution: ${settings.width} x ${settings.height}`);
             setVideoConstraints({
                 // width: settings.height, // ??
                 // height: settings.width,
