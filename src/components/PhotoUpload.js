@@ -6,7 +6,17 @@ const PhotoUpload = ({ addPhoto }) => {
     const fileName = file.name;
     const reader = new FileReader();
     reader.onloadend = () => {
-      addPhoto(reader.result, fileName);
+      const img = new Image();
+      img.onload = function() {
+        const width = img.width;
+        const height = img.height;
+        addPhoto(reader.result, fileName, { width, height });
+      };
+      img.onerror = function(e) {
+        console.error('Error loading image');
+        console.log(e);
+      };
+      img.src = reader.result;
     };
     if (file) {
       reader.readAsDataURL(file);

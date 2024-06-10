@@ -12,28 +12,8 @@ const App = () => {
   const outerDivRef = useRef(null);
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
 
-  useEffect(() => {
-    const updateDimensions = () => {
-        if (outerDivRef.current) {
-            const outerWidth = outerDivRef.current.clientWidth;
-            const outerHeight = outerDivRef.current.clientHeight;
-            console.log(outerWidth, outerHeight);
-            setDimensions({
-                width: outerWidth - 20,
-                height: outerHeight - 20,
-            });
-        }
-    };
-
-    updateDimensions();
-    window.addEventListener('resize', updateDimensions);
-
-    return () => {
-        window.removeEventListener('resize', updateDimensions);
-    };
-}, []);
-
-  const handleFileUpload = (photo, photoName) => {
+  const handleFileUpload = (photo, photoName,{ width, height }) => {
+    setDimensions({ width, height });
     setUploadedPhoto(photo);
     setUploadedPhotoName(photoName);
   };
