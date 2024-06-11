@@ -11,6 +11,7 @@ const App = () => {
   const [showCamera, setShowCamera] = useState(true);
   const outerDivRef = useRef(null);
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
+  const canvasRef = useRef(null);
 
   const handleFileUpload = (photo, photoName,{ width, height }) => {
     setDimensions({ width, height });
@@ -34,6 +35,46 @@ const App = () => {
     saveAs(blob, fileName);
   };
 
+  const handleMergePhoto = () => {
+    const canvas = canvasRef.current;
+    const context = canvas.getContext('2d');
+
+    const image1 = new Image();
+    const image2 = new Image();
+
+    image1.src = uploadedPhoto;
+    image2.src = capturedPhoto;
+
+    image1.onload = () => {
+      image2.onload = () => {
+        const width = image1.width / 2;
+        const height = image1.height / 2;
+        const portraitImage = width < height;
+        
+        if (portraitImage) {
+          canvas.width = width * 2;
+          canvas.height = height;
+        } else {
+          canvas.width = width;
+          canvas.height = height * 2;
+        }
+
+        if (portraitImage) {
+          context.drawImage(image1, 0, 0, width, height);
+          context.drawImage(image2, width, 0, width, height);
+        } else {
+          context.drawImage(image1, 0, 0, width, height);
+          context.drawImage(image2, 0, height, width, height);
+        }
+
+        const fileName = getModifiedFileName(uploadedPhotoName, '_concat');
+        canvas.toBlob(blob => {
+          saveAs(blob, fileName);
+        }, 'image/jpeg');
+      };
+    };
+  };
+
   const dataURItoBlob = (dataURI) => {
     const byteString = atob(dataURI.split(',')[1]);
     const mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
@@ -45,10 +86,10 @@ const App = () => {
     return new Blob([ab], { type: mimeString });
   };
 
-  const getModifiedFileName = (fileName) => {
+  const getModifiedFileName = (fileName, postfix = '_after') => {
     const fileExtension = fileName.split('.').pop();
     const fileNameWithoutExtension = fileName.replace(`.${fileExtension}`, '');
-    return `${fileNameWithoutExtension}_after.${fileExtension}`;
+    return `${fileNameWithoutExtension}${postfix}.${fileExtension}`;
   };
 
   return (
@@ -72,10 +113,12 @@ const App = () => {
             <div>
               <button onClick={handleShowCamera}>回到相機模式</button>
               <button onClick={handleSavePhoto}>保存照片</button>
+              <button onClick={handleMergePhoto}>合併照片</button>
             </div>
           </>
         )}
       </div>
+      <canvas ref={canvasRef} style={{ display: 'none' }} />
     </div>
   );
 };
