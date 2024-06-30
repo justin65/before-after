@@ -10,6 +10,7 @@ const CameraFeed = ({ addPhoto, dimensions, imgSize }) => {
 
   useEffect(() => {
     const handleOrientationChange = () => {
+      console.log(window.screen.orientation.type);
       setOrientation(window.screen.orientation.type);
     };
 
@@ -27,6 +28,7 @@ const CameraFeed = ({ addPhoto, dimensions, imgSize }) => {
 
   const width = dimensions.width > dimensions.height ? dimensions.width : dimensions.height;
   const height = dimensions.width < dimensions.height ? dimensions.width : dimensions.height;
+  const portraitImage = dimensions.width < dimensions.height;
 
   const capture = () => {
     const imageSrc = webcamRef.current.getScreenshot({
@@ -60,9 +62,9 @@ const CameraFeed = ({ addPhoto, dimensions, imgSize }) => {
               facingMode: { exact: "environment" },
             }}
             style={{
-              width: imgSize ? imgSize.width : '100%',
-              height: imgSize ? imgSize.height : '100%',
-              objectFit: 'fill',
+              width: imgSize ? (orientation.includes('portrait') === portraitImage ? imgSize.width : '100%') : '100%',
+              height: imgSize ? (orientation.includes('portrait') === portraitImage ? imgSize.height : '100%') : '100%',
+              objectFit: orientation.includes('portrait') === portraitImage ? 'fill' : 'contain',
             }}
           />
         </div>

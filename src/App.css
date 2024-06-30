@@ -24,8 +24,8 @@
     margin-top: 10px;
     width: calc(50vw - 20px);
     max-width: calc(50vw - 20px);
-    height: calc(100vh - 100px);
-    max-height: calc(100vh - 100px);
+    height: calc(100vh - 110px);
+    max-height: calc(100vh - 110px);
     display: flex;
     align-items: center;
     justify-content: center;
