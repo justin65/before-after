@@ -1,7 +1,9 @@
 import React, { useRef, useEffect, useState } from 'react';
 import Webcam from 'react-webcam';
+import CameraIcon from '@mui/icons-material/Camera';
+import Button from '@mui/material/Button';
 
-const CameraFeed = ({ addPhoto, dimensions }) => {
+const CameraFeed = ({ addPhoto, dimensions, imgSize }) => {
   const [isMobile, setIsMobile] = useState(false);
   const [orientation, setOrientation] = useState(window.screen.orientation.type);
   const webcamRef = useRef(null);
@@ -58,9 +60,9 @@ const CameraFeed = ({ addPhoto, dimensions }) => {
               facingMode: { exact: "environment" },
             }}
             style={{
-              width: '100%',
-              height: '100%',
-              objectFit: 'contain',
+              width: imgSize ? imgSize.width : '100%',
+              height: imgSize ? imgSize.height : '100%',
+              objectFit: 'fill',
             }}
           />
         </div>
@@ -75,14 +77,23 @@ const CameraFeed = ({ addPhoto, dimensions }) => {
             screenshotQuality={1}
             videoConstraints={videoConstraints}
             style={{
-              width: '100%',
-              height: '100%',
-              objectFit: 'contain',
+              width: imgSize ? imgSize.width : '100%',
+              height: imgSize ? imgSize.height : '100%',
+              objectFit: 'fill',
             }}
           />
         </div>
       )}
-      <button onClick={capture}>拍照</button>
+      <Button
+        variant="contained"
+        component="span"
+        startIcon={<CameraIcon />}
+        color="primary"
+        onClick={capture}
+        style={{ marginTop: 10 }}
+      >
+        拍照
+      </Button>
     </div>
   );
 };

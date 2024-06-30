@@ -1,13 +1,6 @@
 .app-container {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
   height: 100vh;
-}
-
-
-button {
-  margin-top: 10px;
 }
 
 /* 新增以下部分來處理手機翻轉時的左右擺放 */
@@ -31,17 +24,16 @@ button {
     margin-top: 10px;
     width: calc(50vw - 20px);
     max-width: calc(50vw - 20px);
-    height: calc(100vh - 125px);
-    max-height: calc(100vh - 125px);
+    height: calc(100vh - 100px);
+    max-height: calc(100vh - 100px);
     display: flex;
     align-items: center;
     justify-content: center;
   }
 
   .image-container img {
-      max-width: 100%;
-      max-height: 100%;
-      object-fit: contain;
+    max-width: 100%;
+    max-height: 100%;
   }
 }
 
@@ -74,8 +66,7 @@ button {
   }
 
   .image-container img {
-      max-width: 100%;
-      max-height: 100%;
-      object-fit: contain;
+    max-width: 100%;
+    max-height: 100%;
   }
 }

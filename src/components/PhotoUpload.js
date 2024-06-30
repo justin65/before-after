@@ -24,7 +24,7 @@ const PhotoUpload = ({ addPhoto }) => {
   };
 
   return (
-    <div>
+    <div style={{ marginTop: 10}} >
       <input type="file" accept="image/*" onChange={handleFileChange} />
     </div>
   );

@@ -1,4 +1,9 @@
-import React, { useState, useRef } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
+import Typography from '@mui/material/Typography';
+import CameraAltIcon from '@mui/icons-material/CameraAlt';
+import SaveAltIcon from '@mui/icons-material/SaveAlt';
+import PhotoLibraryIcon from '@mui/icons-material/PhotoLibrary';
+import Button from '@mui/material/Button';
 import PhotoUpload from './components/PhotoUpload';
 import CameraFeed from './components/CameraFeed';
 import { saveAs } from 'file-saver';
@@ -11,13 +16,34 @@ const App = () => {
   const [showCamera, setShowCamera] = useState(true);
   const outerDivRef = useRef(null);
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
+  const [imgSize, setImgSize] = useState({ width: 0, height: 0 });
   const canvasRef = useRef(null);
+  const imgRef = useRef(null);
 
   const handleFileUpload = (photo, photoName,{ width, height }) => {
     setDimensions({ width, height });
     setUploadedPhoto(photo);
     setUploadedPhotoName(photoName);
   };
+
+  useEffect(() => {
+    const imgElement = imgRef.current;
+    if (imgElement) {
+      const resizeObserver = new ResizeObserver((entries) => {
+        for (let entry of entries) {
+          const { width, height } = entry.contentRect;
+          setImgSize({ width, height });
+        }
+      });
+
+      resizeObserver.observe(imgElement);
+
+      // Clean up observer on unmount
+      return () => {
+        resizeObserver.unobserve(imgElement);
+      };
+    }
+  }, [uploadedPhoto]);
 
   const handlePhotoCapture = (photo) => {
     setCapturedPhoto(photo);
@@ -70,7 +96,7 @@ const App = () => {
         const fileName = getModifiedFileName(uploadedPhotoName, '_concat');
         canvas.toBlob(blob => {
           saveAs(blob, fileName);
-        }, 'image/jpeg');
+        });
       };
     };
   };
@@ -95,25 +121,56 @@ const App = () => {
   return (
     <div className="app-container">
       <div className="photo-upload">
-        <h2>Before</h2>
-        <PhotoUpload addPhoto={handleFileUpload} />
+        <Typography variant="h6">
+          Before
+        </Typography>
         <div className="image-container">
-          {uploadedPhoto && <img src={uploadedPhoto} alt="Uploaded" />}
+          {uploadedPhoto && <img src={uploadedPhoto} alt="Uploaded" ref={imgRef} />}
         </div>
+        <PhotoUpload addPhoto={handleFileUpload} />
       </div>
       <div className="camera-feed" ref={outerDivRef}>
-        <h2>After</h2>
+        <Typography variant="h6">
+          After
+        </Typography>
         {showCamera ? (
-          <CameraFeed addPhoto={handlePhotoCapture} dimensions={dimensions} />
+          <CameraFeed addPhoto={handlePhotoCapture} dimensions={dimensions} imgSize={imgSize} />
         ) : (
           <>
             <div className="image-container">
               <img src={capturedPhoto} alt="Captured" />
             </div>
             <div>
-              <button onClick={handleShowCamera}>回到相機模式</button>
-              <button onClick={handleSavePhoto}>保存照片</button>
-              <button onClick={handleMergePhoto}>合併照片</button>
+              <Button
+                variant="contained"
+                component="span"
+                startIcon={<CameraAltIcon />}
+                color="primary"
+                onClick={handleShowCamera}
+                style={{ marginTop: 10 }}
+              >
+                回到相機模式
+              </Button>
+              <Button
+                variant="contained"
+                component="span"
+                startIcon={<SaveAltIcon />}
+                color="primary"
+                onClick={handleSavePhoto}
+                style={{ marginTop: 10 }}
+              >
+                保存照片
+              </Button>
+              <Button
+                variant="contained"
+                component="span"
+                startIcon={<PhotoLibraryIcon />}
+                color="primary"
+                onClick={handleMergePhoto}
+                style={{ marginTop: 10 }}
+              >
+                合併照片
+              </Button>
             </div>
           </>
         )}
