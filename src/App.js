@@ -70,6 +70,7 @@ const App = () => {
 
     image1.src = uploadedPhoto;
     image2.src = capturedPhoto;
+    const borderWidth = 20;
 
     image1.onload = () => {
       image2.onload = () => {
@@ -78,19 +79,20 @@ const App = () => {
         const portraitImage = width < height;
         
         if (portraitImage) {
-          canvas.width = width * 2;
-          canvas.height = height;
+          canvas.width = width * 2 + 3 * borderWidth;
+          canvas.height = height + 2 * borderWidth;
         } else {
-          canvas.width = width;
-          canvas.height = height * 2;
+          canvas.width = width + 2 * borderWidth;
+          canvas.height = height * 2 + 3 * borderWidth;
         }
-
+        context.fillStyle = 'white';
+        context.fillRect(0, 0, canvas.width, canvas.height);
         if (portraitImage) {
-          context.drawImage(image1, 0, 0, width, height);
-          context.drawImage(image2, width, 0, width, height);
+          context.drawImage(image1, borderWidth, borderWidth, width, height);
+          context.drawImage(image2, width + 2 * borderWidth, borderWidth, width, height);
         } else {
-          context.drawImage(image1, 0, 0, width, height);
-          context.drawImage(image2, 0, height, width, height);
+          context.drawImage(image1,  borderWidth,  borderWidth, width, height);
+          context.drawImage(image2,  borderWidth, height + 2 * borderWidth, width, height);
         }
 
         const fileName = getModifiedFileName(uploadedPhotoName, '_concat');
