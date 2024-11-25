@@ -4,6 +4,9 @@ import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import SaveAltIcon from '@mui/icons-material/SaveAlt';
 import PhotoLibraryIcon from '@mui/icons-material/PhotoLibrary';
 import Button from '@mui/material/Button';
+import Grid from '@mui/material/Grid';
+import AndroidIcon from '@mui/icons-material/Android';
+import AppleIcon from '@mui/icons-material/Apple';
 import PhotoUpload from './components/PhotoUpload';
 import CameraFeed from './components/CameraFeed';
 import { saveAs } from 'file-saver';
@@ -121,63 +124,96 @@ const App = () => {
   };
 
   return (
-    <div className="app-container">
-      <div className="photo-upload">
-        <Typography variant="h6">
-          Before
-        </Typography>
-        <div className="image-container">
-          {uploadedPhoto && <img src={uploadedPhoto} alt="Uploaded" ref={imgRef} />}
+    <div>
+      <Grid container justifyContent="space-around" alignItems="center" style={{ marginTop: 10 }}>
+        <Button
+          variant="outlined"
+          color="primary"
+          // className={classes.button}
+          startIcon={<AndroidIcon />}
+          href={'https://play.google.com/store/apps/details?id=com.justinfang.JCamera'}
+        >
+          Google Play
+        </Button>
+        <Button
+          variant="outlined"
+          color="primary"
+          // className={classes.button}
+          startIcon={<AndroidIcon />}
+          href={'https://drive.google.com/drive/folders/1eofgg7qKLeuITsX6h4O2D-noz3lbJ4i6?usp=drive_link'}
+        >
+          apk
+        </Button>
+        
+        <Button
+          variant="outlined"
+          color="primary"
+          // className={classes.button}
+          startIcon={<AppleIcon />}
+          href={'https://apps.apple.com/us/app/jcamera/id6738357153'}
+        >
+          App Store
+        </Button>
+      </Grid>
+      <div className="app-container">
+
+        <div className="photo-upload">
+          <Typography variant="h6">
+            Before
+          </Typography>
+          <div className="image-container">
+            {uploadedPhoto && <img src={uploadedPhoto} alt="Uploaded" ref={imgRef} />}
+          </div>
+          <PhotoUpload addPhoto={handleFileUpload} />
         </div>
-        <PhotoUpload addPhoto={handleFileUpload} />
+        <div className="camera-feed" ref={outerDivRef}>
+          <Typography variant="h6">
+            After
+          </Typography>
+          {showCamera ? (
+            <CameraFeed addPhoto={handlePhotoCapture} dimensions={dimensions} imgSize={imgSize} />
+          ) : (
+            <>
+              <div className="image-container">
+                <img src={capturedPhoto} alt="Captured" />
+              </div>
+              <div>
+                <Button
+                  variant="contained"
+                  component="span"
+                  startIcon={<CameraAltIcon />}
+                  color="primary"
+                  onClick={handleShowCamera}
+                  style={{ marginTop: 10 }}
+                >
+                  回到相機模式
+                </Button>
+                <Button
+                  variant="contained"
+                  component="span"
+                  startIcon={<SaveAltIcon />}
+                  color="primary"
+                  onClick={handleSavePhoto}
+                  style={{ marginTop: 10 }}
+                >
+                  保存照片
+                </Button>
+                <Button
+                  variant="contained"
+                  component="span"
+                  startIcon={<PhotoLibraryIcon />}
+                  color="primary"
+                  onClick={handleMergePhoto}
+                  style={{ marginTop: 10 }}
+                >
+                  合併照片
+                </Button>
+              </div>
+            </>
+          )}
+        </div>
+        <canvas ref={canvasRef} style={{ display: 'none' }} />
       </div>
-      <div className="camera-feed" ref={outerDivRef}>
-        <Typography variant="h6">
-          After
-        </Typography>
-        {showCamera ? (
-          <CameraFeed addPhoto={handlePhotoCapture} dimensions={dimensions} imgSize={imgSize} />
-        ) : (
-          <>
-            <div className="image-container">
-              <img src={capturedPhoto} alt="Captured" />
-            </div>
-            <div>
-              <Button
-                variant="contained"
-                component="span"
-                startIcon={<CameraAltIcon />}
-                color="primary"
-                onClick={handleShowCamera}
-                style={{ marginTop: 10 }}
-              >
-                回到相機模式
-              </Button>
-              <Button
-                variant="contained"
-                component="span"
-                startIcon={<SaveAltIcon />}
-                color="primary"
-                onClick={handleSavePhoto}
-                style={{ marginTop: 10 }}
-              >
-                保存照片
-              </Button>
-              <Button
-                variant="contained"
-                component="span"
-                startIcon={<PhotoLibraryIcon />}
-                color="primary"
-                onClick={handleMergePhoto}
-                style={{ marginTop: 10 }}
-              >
-                合併照片
-              </Button>
-            </div>
-          </>
-        )}
-      </div>
-      <canvas ref={canvasRef} style={{ display: 'none' }} />
     </div>
   );
 };
